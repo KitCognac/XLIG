@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <DnaLibrary Name="XLIG Add-In" RuntimeVersion="v4.0" xmlns="http://schemas.excel-dna.net/addin/2018/05/dnalibrary">
   <ExternalLibrary Path="XLIG.dll" ExplicitExports="false" LoadFromBytes="true" Pack="true" IncludePdb="false" />
+  
+  <Reference Path="AddinX.Ribbon.Contract.dll" LoadFromBytes="true" Pack="true" />
+  <Reference Path="AddinX.Ribbon.ExcelDna.dll" LoadFromBytes="true" Pack="true" />
+  <Reference Path="AddinX.Ribbon.Implementation.dll" LoadFromBytes="true" Pack="true" />
 
+  <Reference Path="ExcelApi.dll" LoadFromBytes="true" Pack="true" />
+  <Reference Path="NetOffice.dll" LoadFromBytes="true" Pack="true" />
+  <Reference Path="VBIDEApi.dll" LoadFromBytes="true" Pack="true" />
+  <Reference Path="OfficeApi.dll" LoadFromBytes="true" Pack="true" />
+  <Reference Path="Gma.System.MouseKeyHook.dll" LoadFromBytes="true" Pack="true" />
+  <Reference Path="HtmlAgilityPack.dll" LoadFromBytes="true" Pack="true" />
   <!--
        The RuntimeVersion attribute above allows two settings:
        * RuntimeVersion="v4.0" - for .NET 4 and 4.5

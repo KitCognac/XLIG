@@ -1,17 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <DnaLibrary Name="XLIG Add-In" RuntimeVersion="v4.0" xmlns="http://schemas.excel-dna.net/addin/2018/05/dnalibrary">
   <ExternalLibrary Path="XLIG.dll" ExplicitExports="false" LoadFromBytes="true" Pack="true" IncludePdb="false" />
-  
-  <Reference Path="AddinX.Ribbon.Contract.dll" LoadFromBytes="true" Pack="true" />
-  <Reference Path="AddinX.Ribbon.ExcelDna.dll" LoadFromBytes="true" Pack="true" />
-  <Reference Path="AddinX.Ribbon.Implementation.dll" LoadFromBytes="true" Pack="true" />
 
-  <Reference Path="ExcelApi.dll" LoadFromBytes="true" Pack="true" />
-  <Reference Path="NetOffice.dll" LoadFromBytes="true" Pack="true" />
-  <Reference Path="VBIDEApi.dll" LoadFromBytes="true" Pack="true" />
-  <Reference Path="OfficeApi.dll" LoadFromBytes="true" Pack="true" />
+  <Reference Path="ExcelDna.IntelliSense.dll" LoadFromBytes="true" Pack="true" />
   <Reference Path="Gma.System.MouseKeyHook.dll" LoadFromBytes="true" Pack="true" />
-  <Reference Path="HtmlAgilityPack.dll" LoadFromBytes="true" Pack="true" />
   <!--
        The RuntimeVersion attribute above allows two settings:
        * RuntimeVersion="v4.0" - for .NET 4 and 4.5
@@ -30,4 +22,55 @@
        Excel-DNA also allows the XML for ribbon UI extensions to be specified in the .dna file.
        See the main Excel-DNA site at http://excel-dna.net for downloads of the full distribution.
   -->
+  <CustomUI>
+    <customUI xmlns='http://schemas.microsoft.com/office/2009/07/customui'>
+      <!--<ribbon>
+        <tabs>
+          <tab id='XLIGTab'
+               label='XL Ignition'
+               visible='true'>
+            <group id='FormatGroup'
+                   label='Format Tools'
+                   visible='true'>
+              <button id='myFirstButton'
+                      label='My First Button'
+                      size='large'
+                      imageMso='HappyFace'
+                      onAction='SayHello'
+                      visible='true'/>
+              <button id='buttonLoad' label='Load Settings' onAction='OnLoadSettingsPressed'/>
+              <button id='buttonOverride' label='Override Settings' onAction='OnOverrideSettingsPressed'/>
+              <button id='buttonSave' label='Save Settings' onAction='OnSaveSettingsPressed'/>
+              <button id='buttonReset' label='Reset Settings' onAction='OnResetSettingsPressed'/>
+            </group >
+            <group id       ='ToggleGroup'
+                   label    ='QoL Tools'
+                   visible  ='true'>
+              <checkBox id          ='ToggleHSCroll'
+                        label       ='Horizontal Scroll'
+                        visible     ='true'
+                        description ='Horizontal Scroll Toggle'
+                        screentip   ='Horizontal Scroll Toggle'
+                        supertip    ='Toggle Shift + Mouse Scroll to Scroll Horizontal in Sheets'
+                        getPressed  ='Toggle_HScroll_GetPressed'
+                        onAction    ='Toggle_HScroll_Control'
+                        
+                />
+            </group >
+          </tab>
+        </tabs>
+      </ribbon>-->
+      <ribbon>
+        <tabs>
+          <tab id="tab1" label="XL Ignition">
+            <group id="group1" label="QoL Tools">
+              <toggleButton id="toggleButton1" imageMso="GanttScrollToTask" onAction="Toggle_HScroll_Control" label="Horizontal Scroll" size="large" getPressed="Toggle_HScroll_GetPressed" />
+              <toggleButton id="Button1" imageMso="DatabaseSqlServer" onAction="ShowCTPExportTables" label="Export SQL Tables" size="large" getPressed="Toggle_PTSQL_GetPressed"  />
+            </group>
+          </tab>
+        </tabs>
+      </ribbon>
+    </customUI>
+  </CustomUI>
+
 </DnaLibrary>

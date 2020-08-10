@@ -120,17 +120,33 @@ namespace XLIG.ExportTables
 
             object[,] data = rng.Value2;
 
-            for (int i = 1; i < (rng.Columns.Count + 1); i++)
+            for (int i = 1; i <= rng.Columns.Count; i++)
             {//Header always string cause no need to convert
-                dt.Columns.Add((string)data[1, i]);
+                string header = (string)data[1, i];
+                StringComparison comp = StringComparison.OrdinalIgnoreCase;
+                if (header.IndexOf("date", comp) >= 0)
+                {
+                    dt.Columns.Add(header, typeof(DateTime));
+                }
+                else
+                {
+                    dt.Columns.Add(header);
+                }
             }
-            for (int o = 2; o < (rng.Rows.Count + 1); o++)
+            for (int o = 2; o <= rng.Rows.Count; o++)
             {
                 DataRow dr = dt.NewRow();
-                for (int i = 1; i < (rng.Columns.Count + 1); i++)
+                for (int i = 1; i <= rng.Columns.Count; i++)
                 {
-                    string colname = (string)data[1, i];
-                    dr[colname] = data[o, i];
+                    string colname = dt.Columns[i - 1].ColumnName;
+                    if (dt.Columns[i - 1].DataType == typeof(DateTime))
+                    {
+                        dr[colname] = DateTime.FromOADate((double)data[o, i]);
+                    }
+                    else
+                    {
+                        dr[colname] = data[o, i];
+                    }
                 }
                 dt.Rows.Add(dr);
             }
@@ -187,6 +203,7 @@ namespace XLIG.ExportTables
             }
             // Load Tables from Excel to List
             LoadExcelTableToDotnetDataTable();
+
             if (SelectedTbls.Count == 0)
             {
                 // if no table selected exit
@@ -229,6 +246,7 @@ namespace XLIG.ExportTables
                                     sqlBulkCopy.WriteToServerAsync(reader);
                                     transaction.Commit();
 
+                                    MessageBox.Show(table.TableName + ": " + sqlBulkCopy.RowsCopiedCount().ToString() + " rows copied", "Notice");
                                     //var task = sqlBulkCopy.WriteToServerAsync(reader, cancellationTokenSource.Token);
 
                                     //WaitForTaskPollingForCancellation(cancellationTokenSource, task);
@@ -264,7 +282,7 @@ namespace XLIG.ExportTables
             {
 
             }
-            MessageBox.Show("Done", "Notice");
+
         }
         private static void SqlBulkCopy_SqlRowsCopied(object sender, SqlRowsCopiedEventArgs e)
         {

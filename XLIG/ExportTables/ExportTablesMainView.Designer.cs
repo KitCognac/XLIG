@@ -53,13 +53,13 @@
             // 
             // checkedListBox1
             // 
-            this.checkedListBox1.CheckOnClick = true;
             this.checkedListBox1.FormattingEnabled = true;
             this.checkedListBox1.HorizontalScrollbar = true;
             this.checkedListBox1.Location = new System.Drawing.Point(21, 269);
             this.checkedListBox1.Name = "checkedListBox1";
             this.checkedListBox1.Size = new System.Drawing.Size(199, 184);
             this.checkedListBox1.TabIndex = 0;
+            this.checkedListBox1.ThreeDCheckBoxes = true;
             this.checkedListBox1.SelectedIndexChanged += new System.EventHandler(this.checkedListBox1_SelectedIndexChanged);
             // 
             // button1

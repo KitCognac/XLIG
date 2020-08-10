@@ -1,4 +1,5 @@
 ﻿using ExcelDna.Integration;
+using System;
 using Excel = Microsoft.Office.Interop.Excel;
 
 namespace XL_IGNITION
@@ -29,6 +30,49 @@ namespace XL_IGNITION
         public static string ActiveSheetName()
         {
             return XLApp.ActiveSheet.Name;
+        }
+        [ExcelCommand(Description = "AutoFit Shortcut", ShortCut = "^e")]
+        public static void AutoFitCol()
+        {
+            wb = XLApp.ActiveWorkbook;
+            if (wb != null && null != XLApp.Selection as Excel.Range)
+            {
+                (XLApp.Selection as Excel.Range).EntireColumn.AutoFit();
+            }
+        }
+        [ExcelCommand(Description = "New Sheet", ShortCut = "^T")]
+        public static void NewSheetShortCut()
+        {
+            if (XLApp.ActiveWorkbook != null)
+            {
+                XLApp.ActiveWorkbook.Sheets.Add(Type.Missing, XLApp.ActiveSheet, Type.Missing, Type.Missing); //Add (object Before, object After, object Count, object Type);
+            }
+        }
+        [ExcelCommand(Description = "Increase Column Width by 1 point", ShortCut = "^S")]
+        public static void IncreaseColWidth()
+        {
+            Excel.Range sel = XLApp.Selection as Excel.Range;
+            if (sel != null)
+            {
+                double selW = Convert.ToDouble(sel.EntireColumn.ColumnWidth);
+                if (selW < 254) //Column Width Limit
+                {
+                    sel.EntireColumn.ColumnWidth = selW + 1.00;
+                }
+            }
+        }
+        [ExcelCommand(Description = "Decrease Column Width by 1 point", ShortCut = "^A")]
+        public static void DecreaseColWidth()
+        {
+            Excel.Range sel = XLApp.Selection as Excel.Range;
+            if (sel != null)
+            {
+                double selW = Convert.ToDouble(sel.EntireColumn.ColumnWidth);
+                if (selW > 1) //Column Width Limit
+                {
+                    sel.EntireColumn.ColumnWidth = selW - 1.00;
+                }
+            }
         }
     }
 }

@@ -7,13 +7,13 @@ namespace XL_IGNITION
     public class MouseHook_Main
     {
         private static Keys HoldingKey = Keys.None;
-        static IKeyboardMouseEvents M_AppHook;
+        public static IKeyboardMouseEvents M_AppHook;
         public static void Init_Unload(bool state)
         {
             if (state)
             {
                 // Note: for the application hook, use the Hook.AppEvents() instead Hook.GlobalEvents();
-                M_AppHook = Hook.AppEvents();
+                // M_AppHook = Hook.AppEvents();
                 M_AppHook.KeyDown += Hook_KeyDown;
                 M_AppHook.KeyUp += Hook_KeyUp;
                 M_AppHook.MouseWheelExt += Hook_MWheelExt;
@@ -23,7 +23,7 @@ namespace XL_IGNITION
                 M_AppHook.KeyDown -= Hook_KeyDown;
                 M_AppHook.KeyUp -= Hook_KeyUp;
                 M_AppHook.MouseWheelExt -= Hook_MWheelExt;
-                M_AppHook.Dispose();
+                // M_AppHook.Dispose();
             }
 
         }

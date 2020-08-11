@@ -1,6 +1,7 @@
 ﻿using ExcelDna.Integration;
 using ExcelDna.IntelliSense;
 using Excel = Microsoft.Office.Interop.Excel;
+using Gma.System.MouseKeyHook;
 
 namespace XL_IGNITION
 {
@@ -19,6 +20,8 @@ namespace XL_IGNITION
             IntelliSenseServer.Install();
             // Ref Current Excel App to Global Var for further usage
             AddinContext.XlApp = (Excel.Application)ExcelDnaUtil.Application;
+            // Hook Mouse on First Load
+            MouseHook_Main.M_AppHook = Hook.AppEvents();
 
         }
         public void AutoClose()
@@ -27,6 +30,8 @@ namespace XL_IGNITION
             IntelliSenseServer.Uninstall();
             // Kill Shadow Excel Instance
             AddinContext.XlApp.Quit();
+            // Dispose Mouse Hook
+            MouseHook_Main.M_AppHook.Dispose();
         }
     }
 

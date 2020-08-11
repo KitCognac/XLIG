@@ -25,7 +25,6 @@ namespace XL_IGNITION
         // Toggle Horizontal Scroll Section
         public bool Toggle_HScroll_GetPressed(IRibbonControl control1)
         {
-            MouseHook_Main.Init_Unload(Settings.Default.HScroll);
             return Settings.Default.HScroll;
         }
         public void Toggle_HScroll_Control(IRibbonControl control1, bool pressed)

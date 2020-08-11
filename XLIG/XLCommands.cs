@@ -10,6 +10,8 @@ namespace XL_IGNITION
         public static Excel.Workbook wb = null;
         public static Excel.Worksheet ws = null;
         public static Excel.Application XLApp = AddinContext.XlApp;
+        public static string PreWbookName = null;
+        public static string PreWsheetName = null;
         [ExcelCommand(Description = "Open Sheets List", ShortCut = "^q")]
         public static void OpenSheetsList()
         {
@@ -73,6 +75,33 @@ namespace XL_IGNITION
                     sel.EntireColumn.ColumnWidth = selW - 1.00;
                 }
             }
+        }
+        [ExcelCommand(Description = "Back Previous Sheet", ShortCut = "^{tab}")]
+        public static void Back_Prev_Sheet()
+        {
+            if (PreWsheetName == null && PreWbookName == null)
+            {
+                return;
+            }
+            try
+            {
+                if (PreWbookName == null)
+                {
+                    (XLApp.Sheets[PreWsheetName] as Excel.Worksheet).Select();
+                }
+                else
+                {
+                    if (XLApp.ActiveWorkbook.Name == PreWbookName)
+                    {
+                        (XLApp.Sheets[PreWsheetName] as Excel.Worksheet).Select();
+                    }
+                    else
+                    {
+                        XLApp.Workbooks[PreWbookName].Activate();
+                    }
+                }
+            }
+            catch { /* Sheet Deleted or workbook closed could cause errors. Throw catch here for that. */ }
         }
     }
 }

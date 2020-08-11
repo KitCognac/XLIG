@@ -22,16 +22,31 @@ namespace XL_IGNITION
             AddinContext.XlApp = (Excel.Application)ExcelDnaUtil.Application;
             // Hook Mouse on First Load
             MouseHook_Main.M_AppHook = Hook.AppEvents();
+            MouseHook_Main.Init_Unload(XLIG.Properties.Settings.Default.HScroll);
+            // Hook ws event to Ctrl+Tab switch back to old sheet
+            AddinContext.XlApp.SheetDeactivate += XlAppEvent_SheetDeactivate;
+            AddinContext.XlApp.WorkbookDeactivate += XlAppEvent_WorkbookDeactivate;
 
         }
         public void AutoClose()
         {
+            // Dispose Mouse Hook
+            MouseHook_Main.M_AppHook.Dispose();
             // It is recommended to unattacth this IntelliSense server
             IntelliSenseServer.Uninstall();
             // Kill Shadow Excel Instance
             AddinContext.XlApp.Quit();
-            // Dispose Mouse Hook
-            MouseHook_Main.M_AppHook.Dispose();
+            AddinContext.XlApp.SheetDeactivate -= XlAppEvent_SheetDeactivate;
+            AddinContext.XlApp.WorkbookDeactivate -= XlAppEvent_WorkbookDeactivate;
+        }
+        private void XlAppEvent_WorkbookDeactivate(Excel.Workbook Wb)
+        {
+            XLCommand.PreWbookName = Wb.Name;
+        }
+        private void XlAppEvent_SheetDeactivate(object Sh)
+        {
+            XLCommand.PreWsheetName = (Sh as Excel.Worksheet).Name;
+            XLCommand.PreWbookName = AddinContext.XlApp.ActiveWorkbook.Name;
         }
     }
 

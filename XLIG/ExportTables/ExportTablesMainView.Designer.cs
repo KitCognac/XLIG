@@ -53,6 +53,7 @@
             // 
             // checkedListBox1
             // 
+            this.checkedListBox1.CheckOnClick = true;
             this.checkedListBox1.FormattingEnabled = true;
             this.checkedListBox1.HorizontalScrollbar = true;
             this.checkedListBox1.Location = new System.Drawing.Point(21, 269);
@@ -67,7 +68,7 @@
             this.button1.Location = new System.Drawing.Point(21, 470);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(89, 39);
-            this.button1.TabIndex = 1;
+            this.button1.TabIndex = 10;
             this.button1.Text = "PUSH";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
@@ -77,7 +78,7 @@
             this.button2.Location = new System.Drawing.Point(130, 470);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(90, 39);
-            this.button2.TabIndex = 2;
+            this.button2.TabIndex = 11;
             this.button2.Text = "REFRESH";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
@@ -87,7 +88,7 @@
             this.ServerInput.Location = new System.Drawing.Point(83, 14);
             this.ServerInput.Name = "ServerInput";
             this.ServerInput.Size = new System.Drawing.Size(137, 20);
-            this.ServerInput.TabIndex = 3;
+            this.ServerInput.TabIndex = 1;
             this.ServerInput.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // UserNameInput
@@ -114,7 +115,7 @@
             this.radioButton1.Location = new System.Drawing.Point(3, 3);
             this.radioButton1.Name = "radioButton1";
             this.radioButton1.Size = new System.Drawing.Size(117, 17);
-            this.radioButton1.TabIndex = 6;
+            this.radioButton1.TabIndex = 2;
             this.radioButton1.TabStop = true;
             this.radioButton1.Text = "SQL Authentication";
             this.radioButton1.UseVisualStyleBackColor = true;
@@ -126,7 +127,7 @@
             this.radioButton2.Location = new System.Drawing.Point(3, 26);
             this.radioButton2.Name = "radioButton2";
             this.radioButton2.Size = new System.Drawing.Size(69, 17);
-            this.radioButton2.TabIndex = 7;
+            this.radioButton2.TabIndex = 3;
             this.radioButton2.Text = "Windows";
             this.radioButton2.UseVisualStyleBackColor = true;
             this.radioButton2.CheckedChanged += new System.EventHandler(this.radioButton2_CheckedChanged);
@@ -145,7 +146,7 @@
             this.SchemaInput.Location = new System.Drawing.Point(83, 174);
             this.SchemaInput.Name = "SchemaInput";
             this.SchemaInput.Size = new System.Drawing.Size(137, 20);
-            this.SchemaInput.TabIndex = 10;
+            this.SchemaInput.TabIndex = 7;
             this.SchemaInput.TextChanged += new System.EventHandler(this.SchemaInput_TextChanged);
             // 
             // DatabaseInput
@@ -153,7 +154,7 @@
             this.DatabaseInput.Location = new System.Drawing.Point(83, 148);
             this.DatabaseInput.Name = "DatabaseInput";
             this.DatabaseInput.Size = new System.Drawing.Size(137, 20);
-            this.DatabaseInput.TabIndex = 9;
+            this.DatabaseInput.TabIndex = 6;
             this.DatabaseInput.TextChanged += new System.EventHandler(this.DatabaseInput_TextChanged);
             // 
             // label1
@@ -207,7 +208,7 @@
             this.CheckTruncateTBL.Location = new System.Drawing.Point(3, 6);
             this.CheckTruncateTBL.Name = "CheckTruncateTBL";
             this.CheckTruncateTBL.Size = new System.Drawing.Size(104, 17);
-            this.CheckTruncateTBL.TabIndex = 16;
+            this.CheckTruncateTBL.TabIndex = 8;
             this.CheckTruncateTBL.Text = "Truncate Tables";
             this.CheckTruncateTBL.UseVisualStyleBackColor = true;
             this.CheckTruncateTBL.CheckedChanged += new System.EventHandler(this.CheckTruncateTBL_CheckedChanged);
@@ -218,7 +219,7 @@
             this.CheckDrop.Location = new System.Drawing.Point(3, 29);
             this.CheckDrop.Name = "CheckDrop";
             this.CheckDrop.Size = new System.Drawing.Size(153, 17);
-            this.CheckDrop.TabIndex = 17;
+            this.CheckDrop.TabIndex = 9;
             this.CheckDrop.Text = "Drop and ReCreate Tables";
             this.CheckDrop.UseVisualStyleBackColor = true;
             this.CheckDrop.CheckedChanged += new System.EventHandler(this.CheckDrop_CheckedChanged);

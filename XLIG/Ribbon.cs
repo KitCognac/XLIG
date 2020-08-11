@@ -2,6 +2,7 @@
 using Gma.System.MouseKeyHook;
 using System;
 using System.Runtime.InteropServices;
+using System.Windows.Controls.Ribbon;
 using System.Windows.Forms;
 using XLIG.ExportTables;
 using XLIG.Properties;
@@ -11,6 +12,11 @@ namespace XL_IGNITION
     [ComVisible(true)]
     public class XLRibbon : ExcelRibbon
     {
+        public static IRibbonUI _ribbonUi;
+        public void Ribbon_Load(IRibbonUI sender)
+        {
+            _ribbonUi = sender;
+        }
         // Edit CustomUI in dna File
         public void SayHello(IRibbonControl control1)
         {
@@ -58,8 +64,8 @@ namespace XL_IGNITION
         }
         public bool Toggle_PTSQL_GetPressed(IRibbonControl control1)
         {
-            CTPManager.InitCTManager();
-            return CTPManager.ctp.Visible;
+            //CTPManager.InitCTManager();
+            return CTPManager.CtpViewable;
         }
     }
 }

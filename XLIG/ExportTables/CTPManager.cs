@@ -18,6 +18,7 @@ namespace XLIG.ExportTables
     class CTPManager
     {
         public static CustomTaskPane ctp;
+        public static bool CtpViewable = false;
         public static List<DataTable> SelectedTbls = new List<DataTable>();
         //public static bool CancelRequested { get; private set; }
         static Dictionary<string, CustomTaskPane> dict = new Dictionary<string, CustomTaskPane>();
@@ -181,7 +182,8 @@ namespace XLIG.ExportTables
 
         static void Ctp_VisibleStateChange(ExcelDna.Integration.CustomUI.CustomTaskPane CustomTaskPaneInst)
         {
-            //MessageBox.Show("Visibility changed to " + CustomTaskPaneInst.Visible);
+            CtpViewable = ctp.Visible;
+            XLRibbon._ribbonUi.InvalidateControl("Button1");
         }
 
         static void Ctp_DockPositionStateChange(ExcelDna.Integration.CustomUI.CustomTaskPane CustomTaskPaneInst)
@@ -239,10 +241,10 @@ namespace XLIG.ExportTables
                                     var sqlBulkCopy = new SqlBulkCopy(conn, SqlBulkCopyOptions.TableLock, transaction); //)//, transaction))
 
                                     sqlBulkCopy.DestinationTableName = sqlTableName;
-                                    sqlBulkCopy.BatchSize = 5000;
-                                    sqlBulkCopy.NotifyAfter = 5000;
-                                    sqlBulkCopy.SqlRowsCopied += SqlBulkCopy_SqlRowsCopied;
+                                    sqlBulkCopy.BatchSize = 10000;
                                     sqlBulkCopy.EnableStreaming = true;
+                                    //sqlBulkCopy.NotifyAfter = 5000;
+                                    //sqlBulkCopy.SqlRowsCopied += SqlBulkCopy_SqlRowsCopied;
                                     sqlBulkCopy.WriteToServerAsync(reader);
                                     transaction.Commit();
 
@@ -271,8 +273,9 @@ namespace XLIG.ExportTables
                             //        break;
                             //    }
                         }
-                        catch (Exception)
+                        catch (Exception ex)
                         {
+                            MessageBox.Show(ex.Message);
                             continue; // skip to next table on error
                         }
                     }

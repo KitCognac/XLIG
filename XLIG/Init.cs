@@ -1,7 +1,7 @@
 ﻿using ExcelDna.Integration;
 using ExcelDna.IntelliSense;
 using Excel = Microsoft.Office.Interop.Excel;
-using Gma.System.MouseKeyHook;
+//using Gma.System.MouseKeyHook;
 
 namespace XL_IGNITION
 {
@@ -21,8 +21,9 @@ namespace XL_IGNITION
             // Ref Current Excel App to Global Var for further usage
             AddinContext.XlApp = (Excel.Application)ExcelDnaUtil.Application;
             // Hook Mouse on First Load
-            MouseHook_Main.M_AppHook = Hook.AppEvents();
-            MouseHook_Main.Init_Unload(XLIG.Properties.Settings.Default.HScroll);
+            //MouseHook_Main.M_AppHook = Hook.AppEvents();
+            //MouseHook_Main.Init_Unload(XLIG.Properties.Settings.Default.HScroll);
+
             // Hook ws event to Ctrl+Tab switch back to old sheet
             AddinContext.XlApp.SheetDeactivate += XlAppEvent_SheetDeactivate;
             AddinContext.XlApp.WorkbookDeactivate += XlAppEvent_WorkbookDeactivate;
@@ -31,13 +32,15 @@ namespace XL_IGNITION
         public void AutoClose()
         {
             // Dispose Mouse Hook
-            MouseHook_Main.M_AppHook.Dispose();
+            //MouseHook_Main.M_AppHook.Dispose();
+
+            // Unsubribe ws/wb event
+            AddinContext.XlApp.SheetDeactivate -= XlAppEvent_SheetDeactivate;
+            AddinContext.XlApp.WorkbookDeactivate -= XlAppEvent_WorkbookDeactivate;
             // It is recommended to unattacth this IntelliSense server
             IntelliSenseServer.Uninstall();
             // Kill Shadow Excel Instance
             AddinContext.XlApp.Quit();
-            AddinContext.XlApp.SheetDeactivate -= XlAppEvent_SheetDeactivate;
-            AddinContext.XlApp.WorkbookDeactivate -= XlAppEvent_WorkbookDeactivate;
         }
         private void XlAppEvent_WorkbookDeactivate(Excel.Workbook Wb)
         {

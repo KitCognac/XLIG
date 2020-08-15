@@ -3,7 +3,7 @@
   <ExternalLibrary Path="XLIG.dll" ExplicitExports="false" LoadFromBytes="true" Pack="true" IncludePdb="false" />
 
   <Reference Path="ExcelDna.IntelliSense.dll" LoadFromBytes="true" Pack="true" />
-  <!--<Reference Path="Gma.System.MouseKeyHook.dll" LoadFromBytes="true" Pack="true" />-->
+  <Reference Path="Gma.System.MouseKeyHook.dll" LoadFromBytes="true" Pack="true" />
   <!--
        The RuntimeVersion attribute above allows two settings:
        * RuntimeVersion="v4.0" - for .NET 4 and 4.5

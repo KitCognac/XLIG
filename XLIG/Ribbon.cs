@@ -1,11 +1,10 @@
 ﻿using ExcelDna.Integration.CustomUI;
-using Gma.System.MouseKeyHook;
-using System;
+using System.Linq;
 using System.Runtime.InteropServices;
-using System.Windows.Controls.Ribbon;
 using System.Windows.Forms;
 using XLIG.ExportTables;
 using XLIG.Properties;
+using XLIG.WorkspaceManager.TaskPaneModule;
 
 namespace XL_IGNITION
 {
@@ -26,7 +25,6 @@ namespace XL_IGNITION
         public bool Toggle_HScroll_GetPressed(IRibbonControl control1)
         {
             return Settings.Default.HScroll;
-            return true;
         }
         public void Toggle_HScroll_Control(IRibbonControl control1, bool pressed)
         {
@@ -64,8 +62,34 @@ namespace XL_IGNITION
         }
         public bool Toggle_PTSQL_GetPressed(IRibbonControl control1)
         {
-            //CTPManager.InitCTManager();
-            return CTPManager.CtpViewable;
+            string paneID = "CTP" + AddinContext.XlApp.Hwnd.ToString();
+            if (!CTPManager.CTP_DICT.ContainsKey(paneID))
+            {
+                return false;
+            }
+            else
+            {
+                CustomTaskPane ctp = CTPManager.CTP_DICT.Single(x => x.Key == paneID).Value;
+                return ctp.Visible;
+            }
+        }
+        public void SheetManagerRibControl(IRibbonControl control, bool pressed)
+        {
+            SheetManager.SheetManagerCTP();
+            SheetManager.ctp.Visible = pressed;
+        }
+        public bool SheetManagerRibControlGetPressed(IRibbonControl control1)
+        {
+            string paneID = "SheetManagerCTP" + AddinContext.XlApp.Hwnd.ToString();
+            if (!SheetManager.CTP_DICT.ContainsKey(paneID))
+            {
+                return false;
+            }
+            else
+            {
+                CustomTaskPane ctp = SheetManager.CTP_DICT.Single(x => x.Key == paneID).Value;
+                return ctp.Visible;
+            }
         }
     }
 }

@@ -20,8 +20,10 @@ namespace XLIG.ExportTables
         public static CustomTaskPane ctp;
         public static bool CtpViewable = false;
         public static List<DataTable> SelectedTbls = new List<DataTable>();
+        static int control_width;
+        static int control_height;
         //public static bool CancelRequested { get; private set; }
-        static Dictionary<string, CustomTaskPane> dict = new Dictionary<string, CustomTaskPane>();
+        public static Dictionary<string, CustomTaskPane> CTP_DICT = new Dictionary<string, CustomTaskPane>();
 
         public static void InitCTManager()
         {
@@ -29,47 +31,62 @@ namespace XLIG.ExportTables
             if (AddinContext.XlApp != null)
             {
                 paneID = "CTP" + AddinContext.XlApp.Hwnd.ToString();
-                if (!dict.ContainsKey(paneID))
+                if (!CTP_DICT.ContainsKey(paneID))
                 {
-                    // Make a new one using ExcelDna.Integration.CustomUI.CustomTaskPaneFactory 
-                    ctp = CustomTaskPaneFactory.CreateCustomTaskPane(typeof(ExportTablesMainView), "EXPORT SQL");
+                    // Define Task Pane size on Action Pane Size.
+                    var control = new ExportTablesMainView();
+                    control_width = control.Width;
+                    control_height = control.Height;
+                    
+                    // Init Task Pane
+                    ctp = CustomTaskPaneFactory.CreateCustomTaskPane(control, "EXPORT SQL");
+
+                    // Then dock state change event can not change size so we need to config size on floating mode first.
+                    ctp.DockPosition = MsoCTPDockPosition.msoCTPDockPositionFloating;
+                    ctp.Height = control_height;
+                    ctp.Width = control_width;
+                    // Change back to default Dock Position
                     ctp.DockPosition = MsoCTPDockPosition.msoCTPDockPositionLeft;
+                    ctp.Width = control_width;
+
                     ctp.DockPositionStateChange += Ctp_DockPositionStateChange;
                     ctp.VisibleStateChange += Ctp_VisibleStateChange;
-                    // Minimum width for Custom Pane
-                    ctp.Width = 250;
+                    
+                    // Update Table List on first run
                     RefreshTableList();
-                    dict.Add(paneID, ctp);
+
+                    // Add Task Pane on each workbook opened.
+                    CTP_DICT.Add(paneID, ctp);
                 }
                 else
                 {
-                    ctp = dict.Single(x => x.Key == paneID).Value;
+                    // If Custom Task Pane already created, Call it from Dict and refresh Table List to be exported.
+                    ctp = CTP_DICT.Single(x => x.Key == paneID).Value;
                     RefreshTableList();
                 }
             }
             if (ctp != null)
             {
-                var clr = ((ExportTablesMainView)ctp.ContentControl).BackColor;
+                ContainerControl ActPane = (ExportTablesMainView)ctp.ContentControl;
+                var clr = ActPane.BackColor;
                 if ((clr.B + clr.R + clr.G) / 3 <= 128)
                 {
-                    var ctpView = (ExportTablesMainView)ctp.ContentControl;
-                    foreach (var LabelCtl in ctpView.Controls.OfType<Label>())
+                    foreach (var LabelCtl in ActPane.Controls.OfType<Label>())
                     {
                         LabelCtl.ForeColor = Color.White;
                     }
-                    foreach (var LabelCtl in ctpView.Controls.OfType<RadioButton>())
+                    foreach (var LabelCtl in ActPane.Controls.OfType<RadioButton>())
                     {
                         LabelCtl.ForeColor = Color.White;
                     }
-                    foreach (var LabelCtl in ctpView.Controls.OfType<CheckBox>())
+                    foreach (var LabelCtl in ActPane.Controls.OfType<CheckBox>())
                     {
                         LabelCtl.ForeColor = Color.White;
                     }
-                    foreach (var LabelCtl in ctpView.Controls.OfType<Panel>())
+                    foreach (var LabelCtl in ActPane.Controls.OfType<Panel>())
                     {
                         LabelCtl.ForeColor = Color.White;
                     }
-
                 }
             }
         }
@@ -182,13 +199,13 @@ namespace XLIG.ExportTables
 
         static void Ctp_VisibleStateChange(ExcelDna.Integration.CustomUI.CustomTaskPane CustomTaskPaneInst)
         {
-            CtpViewable = ctp.Visible;
             XLRibbon._ribbonUi.InvalidateControl("Button1");
         }
 
         static void Ctp_DockPositionStateChange(ExcelDna.Integration.CustomUI.CustomTaskPane CustomTaskPaneInst)
         {
             //((ExportTablesMainView)ctp.ContentControl).label1.Text = "Moved to " + CustomTaskPaneInst.DockPosition.ToString();
+            // This event can not trigger size change for task pane.
         }
         public static void ExportDataToSQLServer(string connStr, string schemaName, bool truncateTables, bool dropTables)
         {

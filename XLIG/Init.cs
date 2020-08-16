@@ -27,6 +27,7 @@ namespace XL_IGNITION
             // Hook ws event to Ctrl+Tab switch back to old sheet
             AddinContext.XlApp.SheetDeactivate += XlAppEvent_SheetDeactivate;
             AddinContext.XlApp.WorkbookDeactivate += XlAppEvent_WorkbookDeactivate;
+            AddinContext.XlApp.WorkbookActivate += XlAppEvent_WorkbookActivate;
 
         }
         public void AutoClose()
@@ -37,6 +38,8 @@ namespace XL_IGNITION
             // Unsubribe ws/wb event
             AddinContext.XlApp.SheetDeactivate -= XlAppEvent_SheetDeactivate;
             AddinContext.XlApp.WorkbookDeactivate -= XlAppEvent_WorkbookDeactivate;
+            AddinContext.XlApp.WorkbookActivate -= XlAppEvent_WorkbookActivate;
+
             // It is recommended to unattacth this IntelliSense server
             IntelliSenseServer.Uninstall();
             // Kill Shadow Excel Instance
@@ -50,6 +53,10 @@ namespace XL_IGNITION
         {
             XLCommand.PreWsheetName = (Sh as Excel.Worksheet).Name;
             XLCommand.PreWbookName = AddinContext.XlApp.ActiveWorkbook.Name;
+        }
+        private void XlAppEvent_WorkbookActivate(Excel.Workbook Wb)
+        {
+            XLRibbon._ribbonUi.InvalidateControl("Button1");
         }
     }
 
